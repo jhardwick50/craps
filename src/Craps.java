@@ -31,7 +31,7 @@ public class Craps {
        
        for (int i = 0; i < 6; i++)// Play 6 games
        {
-           System.out.println("Player " + (i+1));
+           System.out.println("Player " + (i+1));//number each player 1-6
            play();
            System.out.println("\n");
        }
