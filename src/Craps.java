@@ -5,8 +5,9 @@
  */
 
 /**
- *
- * @author Jason
+ * CIS 214 Java Programming
+ * @author Jason Hardwick
+ * Programming assignment 3
  */
 import java.security.SecureRandom;
 
@@ -28,17 +29,37 @@ public class Craps {
     
     public static void main(String[] args)
     {
+       Player player1 = new Player();
+       player1.setName("Ricky Bobby");
        
-       for (int i = 0; i < 6; i++)// Play 6 games
-       {
-           System.out.println("Player " + (i+1));//number each player 1-6
-           play();
-           System.out.println("\n");
+       Player player2 = new Player();
+       player2.setName("El Diablo");
+       
+       Player player3 = new Player();
+       player3.setName("Magic Man");
+       
+       Player player4 = new Player();
+       player4.setName("Cal Naughton Jr.");
+       
+       Player player5 = new Player();
+       player5.setName("Dr. Quinn");
+       
+       Player player6 = new Player();
+       player6.setName("Medicine Woman");
+       
+       
+       Game game = new Game();
+       game.setShooter(player1);
+       
+       play(game);
+       
+       Result result = game.getResult();
+       for (Player player : result.getWinners()){
+        System.out.println(player.getName() + " Won");
        }
-       
     }
     //plays one game of craps
-    public static void play()
+    public static void play(Game game)
     {
          int myPoint = 0; //point if no win or loss on first roll
         Status gameStatus; //can contain CONTINUE, WON, or LOST
@@ -78,11 +99,14 @@ public class Craps {
             
            
         }
-        //display won or lost message
-        if (gameStatus == Status.WON)
-            System.out.println("player wins");
-        else
-            System.out.println("player loses");
+        Result result = new Result();
+        
+        if (gameStatus == Status.WON){
+            result.addWinner(game.getShooter());
+        }    
+        game.setResult(result);
+            
+        
     }
     // roll dice, calculate sum and display results
     public static int rollDice()
