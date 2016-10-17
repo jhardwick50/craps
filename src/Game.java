@@ -8,14 +8,16 @@ import java.util.List;
  * and open the template in the editor.
  */
 
-/**
+/**Author Jason Hardwick
+ * CIS 214
+ * Programming assignment 3
  *
  * @author Jason
  */
 public class Game {
     
 
-    
+    //creating new lists as well as shooter and result variables.  
     private List<Player> passlinePlayers = new ArrayList<>();
     
     private List<Player> noPasslinePlayers = new ArrayList<>();
@@ -24,7 +26,7 @@ public class Game {
     
     private Result result;
   
-
+//creates getters and setters as well as "adds" to add to list.
     public List<Player> getPasslinePlayers() {
         return passlinePlayers;
     }

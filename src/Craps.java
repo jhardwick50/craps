@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-/**
+/**Author Jason Hardwick
  * CIS 214 Java Programming
- * @author Jason Hardwick
  * Programming assignment 3
+ * 
+ * @author
+ * 
  */
 import java.security.SecureRandom;
-import java.lang.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -33,9 +33,14 @@ public class Craps {
     
     
     public static void main(String[] args)
-    {
+    {   //print signature block
+        SignatureBlock sig = new SignatureBlock();
+        System.out.println(sig);
+        
+        //JOptionPane window pops up for input
         String gamesCount = JOptionPane.showInputDialog("How many games would you like to play?");
         
+        //creating instances of Player and naming each
        Player player1 = new Player();
        player1.setName("Ricky Bobby");
        
@@ -55,7 +60,7 @@ public class Craps {
        player6.setName("Medicine Woman");
        
        
-       
+       //adding players into a new list
        List<Player> playerList = new ArrayList<>();
        playerList.add(player1);
        playerList.add(player2);
@@ -64,45 +69,47 @@ public class Craps {
        playerList.add(player5);
        playerList.add(player6);
        
-       
+       //shooter index starts at 0
        int shooterIndex = 0;
-       //play 100 games
+      
        
        List<Game> games = new ArrayList();
-       
+       //play games and increment up to number of games entered into the JOptionPane 
        for (int i = 0; i < Integer.parseInt(gamesCount); i++){
            
-           
+           //creates new Game
             Game game = new Game();
             games.add(game);
             
+            //sets the shooter and adds one to the players attribute.
             Player shooter = playerList.get(shooterIndex);
             game.setShooter(shooter);
             shooter.addShooter();
-            System.out.println(shooter.getName() + " is the shooter.");
+            //System.out.println(shooter.getName() + " is the shooter.");
 
 
 
-            //randomly assign all non shooters to pass-line or no-pass-line
+            //randomly assign all non shooters to pass-line or no-pass-line and keeps track for report
             for (int j=0; j<playerList.size(); ++j){
                 if (j != shooterIndex){
-
+                    
                     Player player = playerList.get(j);
                     double x = Math.random();
                     if (x < .5){
                         game.addPasslinePlayer(player);
                         player.addPassline();
-                        System.out.println(player.getName()+ " is playing the pass line.");
+                        //System.out.println(player.getName()+ " is playing the pass line.");
                         
                     }
                     else if (x >= .5){
                         game.addNoPasslinePlayer(player);
                         player.addNopassline();
-                        System.out.println(player.getName()+ " is playing the No-Pass line.");
+                        //System.out.println(player.getName()+ " is playing the No-Pass line.");
                     }
                 }
 
          }
+            //increments shooter to the next one until it hits 5 then starts at 0
         if (shooterIndex < 5 ){
             shooterIndex++;
         }else {
@@ -112,23 +119,24 @@ public class Craps {
 
 
 
-
+        //executes the play method for game
         play(game);
        
+        //add results to each players stats for report
         Result result = game.getResult();
         for (Player player : result.getWinners()){
-         System.out.println(player.getName() + " Won");
+         //System.out.println(player.getName() + " Won");
         }
         for (Player player : result.getTies()){
-         System.out.println(player.getName() + " Tied");
+         //System.out.println(player.getName() + " Tied");
         }
         for (Player player : result.getLosers()){
-            System.out.println(player.getName() + " Lost");
+            //System.out.println(player.getName() + " Lost");
         }
-        System.out.println("");
+        //System.out.println("");
        }
        
-       
+      //output for the report 
      for (Player player : playerList){
        System.out.println("");
        System.out.println(player.getName());
@@ -163,7 +171,7 @@ public class Craps {
             default: // did not win or lose, so remember point
                 gameStatus = Status.CONTINUE;
                 myPoint = sumOfDice;//  remember the point
-                System.out.printf("Point is %d%n", myPoint);
+                //System.out.printf("Point is %d%n", myPoint);
                 break;
                             
         }
@@ -171,7 +179,7 @@ public class Craps {
         Result result = new Result();
         
         
-        
+        //adds in Ties to both the results and player attributes.
         if (sumOfDice == BOX_CARS){
             for (Player player : game.getNoPasslinePlayers()){
                 result.addTie(player);
@@ -197,35 +205,35 @@ public class Craps {
         
         if (gameStatus == Status.WON){
             result.addWinner(game.getShooter());
-            game.getShooter().addWin();
+            game.getShooter().addWin();//add win to shooter
             for (Player player : game.getPasslinePlayers()){
                 result.addWinner(player);
-                player.addWin();
+                player.addWin();//add winner to stats for player for report
             } 
             for (Player player : game.getNoPasslinePlayers()){
                 if (!result.getTies().contains(player)){
                     result.addLoser(player);
-                    player.addLoss();
+                    player.addLoss();//add loss to stats for player for report
                 }
             }
         } else if (gameStatus == Status.LOST) {
             result.addWinner(game.getShooter());
-            game.getShooter().addLoss();
+            game.getShooter().addLoss();//add loss to stats for player report
             
             for (Player player : game.getNoPasslinePlayers()){
-                if (!result.getTies().contains(player)){
+                if (!result.getTies().contains(player)){//makes sure it's not a tie
                 
                     result.addWinner(player);
-                    player.addWin();
+                    player.addWin();//add win to stats for report
                 } 
             }
             for (Player player : game.getPasslinePlayers()){
                 result.addLoser(player);
-                player.addLoss();
+                player.addLoss();//add loss to stats for report
             }
         }
        
-        game.setResult(result);
+        game.setResult(result);//sets result
             
         
     }
@@ -239,8 +247,8 @@ public class Craps {
         int sum = die1 + die2; //sum of die values
         
         //display results of this roll
-        System.out.printf("Player rolled %d + %d = %d%n", die1, die2, sum);
+        //System.out.printf("Player rolled %d + %d = %d%n", die1, die2, sum);
         
         return sum;
     }
-} // end class craps
+} //end class craps

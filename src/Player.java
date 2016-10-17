@@ -7,10 +7,14 @@ import java.util.ArrayList;
  * and open the template in the editor.
  */
 
-/**
+/**Author: Jason Hardwick
+ * CIS 214
+ * Programming assignment 3
  *
  * @author Jason
  */
+
+//creates all the places to store the numbers and percentages.
 public class Player {
     private String name;
     private int wins = 0;
@@ -19,7 +23,7 @@ public class Player {
     private int passline = 0;
     private int nopassline = 0;
     private int shooter = 0;
-    
+    //creates getters and setters for each along with "adds" to increment.
     public String getName() {
         return name;
     }
@@ -67,11 +71,11 @@ public class Player {
         return shooter;
     }
     public void addShooter() {
-        shooter++;
-        passline++;
+        shooter++;//increments shooter
+        passline++;//increments passline because shooter plays passline
     }
     
-    
+    //calculates win and loss percentages for each player
     public double getWinPercentage(){
         
         return ((double)wins / (double)(wins + losses + ties))*100;

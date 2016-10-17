@@ -8,18 +8,21 @@ import java.util.List;
  * and open the template in the editor.
  */
 
-/**
+/**Author Jason Hardwick
+ * CIS 214
+ * Programming assignment 3
  *
  * @author Jason
  */
 public class Result {
-    
+    //creates new lists to hold winners, ties, losers
     private List<Player> winners = new ArrayList<>();
 
     private List<Player> ties = new ArrayList<>();
     
     private List<Player> losers = new ArrayList<>();
 
+    //creates getters setters and "adds" for each.
     public void addLoser(Player loser) {
         losers.add(loser);
     }
