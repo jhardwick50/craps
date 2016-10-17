@@ -14,40 +14,39 @@ import java.util.List;
  */
 public class Game {
     
-    private List<Player> playerList = new ArrayList<>();
+
     
-    private List<Player> passline = new ArrayList<>();
+    private List<Player> passlinePlayers = new ArrayList<>();
     
-    private List<Player> noPassline = new ArrayList<>();
+    private List<Player> noPasslinePlayers = new ArrayList<>();
     
     private Player shooter;
     
     private Result result;
+  
 
-    public List<Player> getPlayerList() {
-        return playerList;
+    public List<Player> getPasslinePlayers() {
+        return passlinePlayers;
     }
 
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
+    public void setPasslinePlayers(List<Player> passlinePlayers) {
+        this.passlinePlayers = passlinePlayers;
     }
 
-    public List<Player> getPassline() {
-        return passline;
+    public void addPasslinePlayer(Player passlinePlayer){
+            passlinePlayers.add(passlinePlayer);
+    }
+    public List<Player> getNoPasslinePlayers() {
+        return noPasslinePlayers;
     }
 
-    public void setPassline(List<Player> passline) {
-        this.passline = passline;
+    public void setNoPasslinePlayers(List<Player> noPasslinePlayers) {
+        this.noPasslinePlayers = noPasslinePlayers;
     }
-
-    public List<Player> getNoPassline() {
-        return noPassline;
+    public void addNoPasslinePlayer(Player noPasslinePlayer){
+            noPasslinePlayers.add(noPasslinePlayer);
     }
-
-    public void setNoPassline(List<Player> noPassline) {
-        this.noPassline = noPassline;
-    }
-
+    
     public Player getShooter() {
         return shooter;
     }

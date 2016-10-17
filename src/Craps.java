@@ -10,6 +10,10 @@
  * Programming assignment 3
  */
 import java.security.SecureRandom;
+import java.lang.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Craps {
     
@@ -48,15 +52,70 @@ public class Craps {
        player6.setName("Medicine Woman");
        
        
-       Game game = new Game();
-       game.setShooter(player1);
        
-       play(game);
+       List<Player> playerList = new ArrayList<>();
+       playerList.add(player1);
+       playerList.add(player2);
+       playerList.add(player3);
+       playerList.add(player4);
+       playerList.add(player5);
+       playerList.add(player6);
        
-       Result result = game.getResult();
-       for (Player player : result.getWinners()){
-        System.out.println(player.getName() + " Won");
+       
+       int shooterIndex = 0;
+       for (int i = 0; i < 2; i++){
+           
+       
+        Game game = new Game();
+        
+        Player shooter = playerList.get(shooterIndex);
+        game.setShooter(shooter);
+        System.out.println(shooter.getName() + " is the shooter.");
+        
+            
+        
+        //randomly assign all non shooters to pass-line or no-pass-line
+        for (int j=0; j<playerList.size(); ++j){
+            if (j != shooterIndex){
+                
+                Player player = playerList.get(j);
+                double x = Math.random();
+                if (x < .5){
+                    game.addPasslinePlayer(player);
+                    System.out.println(player.getName()+ " is playing the pass line.");
+                }
+                else if (x >= .5){
+                    game.addNoPasslinePlayer(player);
+                    System.out.println(player.getName()+ " is playing the No-Pass line.");
+                }
+            }
+
+         }
+        if (shooterIndex < 5 ){
+            shooterIndex++;
+        }else {
+            shooterIndex = 0;
+        } 
+
+
+
+
+
+        play(game);
+
+        Result result = game.getResult();
+        for (Player player : result.getWinners()){
+         System.out.println(player.getName() + " Won");
+        }
+        for (Player player : result.getTies()){
+         System.out.println(player.getName() + " Tied");
+        }
+        for (Player player : result.getLosers()){
+            System.out.println(player.getName() + " Lost");
+        }
+        System.out.println("");
        }
+       
     }
     //plays one game of craps
     public static void play(Game game)
@@ -83,8 +142,19 @@ public class Craps {
                 myPoint = sumOfDice;//  remember the point
                 System.out.printf("Point is %d%n", myPoint);
                 break;
+                            
         }
         
+        Result result = new Result();
+        
+        
+        
+        if (sumOfDice == BOX_CARS){
+            for (Player player : game.getNoPasslinePlayers()){
+                result.addTie(player);
+             }
+        }
+            
         //while game is not complete
         while (gameStatus == Status.CONTINUE) // not WON or LOST
         {
@@ -99,11 +169,18 @@ public class Craps {
             
            
         }
-        Result result = new Result();
+        
         
         if (gameStatus == Status.WON){
             result.addWinner(game.getShooter());
-        }    
+            for (Player player : game.getPasslinePlayers()){
+                result.addWinner(player);
+            } 
+            for (Player player : game.getNoPasslinePlayers()){
+                result.addLoser(player);
+            }
+        } 
+       
         game.setResult(result);
             
         

@@ -18,6 +18,20 @@ public class Result {
 
     private List<Player> ties = new ArrayList<>();
     
+    private List<Player> losers = new ArrayList<>();
+
+    public void addLoser(Player loser) {
+        losers.add(loser);
+    }
+
+    public List<Player> getLosers() {
+        return losers;
+    }
+
+    public void setLosers(List<Player> losers) {
+        this.losers = losers;
+    }
+    
     public List<Player> getWinners() {
         return winners;
     }
@@ -29,5 +43,15 @@ public class Result {
     public void addWinner(Player winner){
         winners.add(winner);
     }
-    
+
+    public List<Player> getTies() {
+        return ties;
+    }
+
+    public void setTies(List<Player> ties) {
+        this.ties = ties;
+    }
+    public void addTie(Player tie) {
+        ties.add(tie);
+    }
 }
