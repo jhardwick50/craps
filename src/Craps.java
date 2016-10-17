@@ -14,6 +14,7 @@ import java.lang.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class Craps {
     
@@ -33,6 +34,8 @@ public class Craps {
     
     public static void main(String[] args)
     {
+        String gamesCount = JOptionPane.showInputDialog("How many games would you like to play?");
+        
        Player player1 = new Player();
        player1.setName("Ricky Bobby");
        
@@ -63,32 +66,41 @@ public class Craps {
        
        
        int shooterIndex = 0;
-       for (int i = 0; i < 2; i++){
-           
+       //play 100 games
        
-        Game game = new Game();
-        
-        Player shooter = playerList.get(shooterIndex);
-        game.setShooter(shooter);
-        System.out.println(shooter.getName() + " is the shooter.");
-        
+       List<Game> games = new ArrayList();
+       
+       for (int i = 0; i < Integer.parseInt(gamesCount); i++){
+           
+           
+            Game game = new Game();
+            games.add(game);
             
-        
-        //randomly assign all non shooters to pass-line or no-pass-line
-        for (int j=0; j<playerList.size(); ++j){
-            if (j != shooterIndex){
-                
-                Player player = playerList.get(j);
-                double x = Math.random();
-                if (x < .5){
-                    game.addPasslinePlayer(player);
-                    System.out.println(player.getName()+ " is playing the pass line.");
+            Player shooter = playerList.get(shooterIndex);
+            game.setShooter(shooter);
+            shooter.addShooter();
+            System.out.println(shooter.getName() + " is the shooter.");
+
+
+
+            //randomly assign all non shooters to pass-line or no-pass-line
+            for (int j=0; j<playerList.size(); ++j){
+                if (j != shooterIndex){
+
+                    Player player = playerList.get(j);
+                    double x = Math.random();
+                    if (x < .5){
+                        game.addPasslinePlayer(player);
+                        player.addPassline();
+                        System.out.println(player.getName()+ " is playing the pass line.");
+                        
+                    }
+                    else if (x >= .5){
+                        game.addNoPasslinePlayer(player);
+                        player.addNopassline();
+                        System.out.println(player.getName()+ " is playing the No-Pass line.");
+                    }
                 }
-                else if (x >= .5){
-                    game.addNoPasslinePlayer(player);
-                    System.out.println(player.getName()+ " is playing the No-Pass line.");
-                }
-            }
 
          }
         if (shooterIndex < 5 ){
@@ -102,7 +114,7 @@ public class Craps {
 
 
         play(game);
-
+       
         Result result = game.getResult();
         for (Player player : result.getWinners()){
          System.out.println(player.getName() + " Won");
@@ -116,6 +128,17 @@ public class Craps {
         System.out.println("");
        }
        
+       
+     for (Player player : playerList){
+       System.out.println("");
+       System.out.println(player.getName());
+       System.out.println("Played the Pass line " + player.getPassline()+ " times.");
+       System.out.println("Played the No-Pass line " + player.getNopassline()+ " times.");
+       System.out.println("Won "+ player.getWinPercentage() + "% of the games (" + player.getWins() + " games)");
+       System.out.println("Lost "+ player.getlossPercentage()+ "% of the games (" + player.getLosses() + " games)");
+       System.out.println("Tied "+ player.getTies() + " games");
+       System.out.println("");
+     }
     }
     //plays one game of craps
     public static void play(Game game)
@@ -152,6 +175,7 @@ public class Craps {
         if (sumOfDice == BOX_CARS){
             for (Player player : game.getNoPasslinePlayers()){
                 result.addTie(player);
+                player.addTie();
              }
         }
             
@@ -173,13 +197,33 @@ public class Craps {
         
         if (gameStatus == Status.WON){
             result.addWinner(game.getShooter());
+            game.getShooter().addWin();
             for (Player player : game.getPasslinePlayers()){
                 result.addWinner(player);
+                player.addWin();
             } 
             for (Player player : game.getNoPasslinePlayers()){
-                result.addLoser(player);
+                if (!result.getTies().contains(player)){
+                    result.addLoser(player);
+                    player.addLoss();
+                }
             }
-        } 
+        } else if (gameStatus == Status.LOST) {
+            result.addWinner(game.getShooter());
+            game.getShooter().addLoss();
+            
+            for (Player player : game.getNoPasslinePlayers()){
+                if (!result.getTies().contains(player)){
+                
+                    result.addWinner(player);
+                    player.addWin();
+                } 
+            }
+            for (Player player : game.getPasslinePlayers()){
+                result.addLoser(player);
+                player.addLoss();
+            }
+        }
        
         game.setResult(result);
             
